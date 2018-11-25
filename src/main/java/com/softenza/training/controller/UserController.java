@@ -14,7 +14,7 @@ import com.softenza.training.service.GenericService;
 
 
 @RestController
-@RequestMapping(value="/service/user")
+@RequestMapping(value="/service")
 @CrossOrigin
 public class UserController {
  
@@ -22,14 +22,13 @@ public class UserController {
 	@Qualifier("userService")
 	GenericService genericService;
 	
-    @RequestMapping("/login")
-    public boolean login(@RequestBody User user) {
-        return
-          user.getEmail().equals("user") && user.getPassword().equals("password");
+    @RequestMapping(value="/login", method = RequestMethod.GET)
+    public String login(@RequestBody User user) {
+        return "True";
     }
      
     
-    @RequestMapping(value="/register",method = RequestMethod.POST)
+    @RequestMapping(value="/user/register", method = RequestMethod.POST)
     public BaseEntity register(@RequestBody User user) {
 	
 		BaseEntity savedUser = this.genericService.save(user);
