@@ -116,6 +116,22 @@ public class Reservation extends BaseEntity implements Comparable<Reservation> {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
+	public String getUserLastName() {
+		return this.getUser().getLastName();
+	}
+	
+	public String getUserFirstName() {
+		return this.getUser().getFirstName();
+	}
+	
+	public String getUserPhone() {
+		return this.getUser().getPhone();
+	}
+	
+	public String getUserEmail() {
+		return this.getUser().getPhone();
+	}
 
 	@Override
 	public String toString() {
