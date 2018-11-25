@@ -1,5 +1,6 @@
 package com.softenza.training.controller;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,13 +10,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.softenza.training.domain.BasicResponse;
 import com.softenza.training.model.BaseEntity;
 import com.softenza.training.model.Configuration;
 import com.softenza.training.model.Reservation;
 import com.softenza.training.model.User;
 import com.softenza.training.service.GenericService;
+import com.softenza.training.service.ReportService;
 import com.softenza.training.service.UserService;
 import com.softenza.training.util.Constants;
 
@@ -32,6 +36,10 @@ public class ReservationController {
 	@Autowired 
 	@Qualifier("genericService")
 	GenericService genericService;
+	
+	@Autowired
+	@Qualifier("reportService")
+	ReportService reportService;
 	
   
     @RequestMapping(value="/getUserReservations/{userId}", method = RequestMethod.GET)
@@ -61,7 +69,7 @@ public class ReservationController {
 	}
     
     @RequestMapping(value="/delete/{id}", method = RequestMethod.GET)
-    public String delete(@PathVariable Long id) {
+    public BasicResponse delete(@PathVariable Long id) {
     	
     	String result = Constants.SUCCESS;
     	
@@ -72,11 +80,11 @@ public class ReservationController {
     		result = e.getMessage();
     	}
     	
-    	return result;
+    	return new BasicResponse(result);
     }
     
     @RequestMapping(value="/confirmer", method = RequestMethod.POST)
-    public String confirmer(@RequestBody Reservation reservation) {
+    public BasicResponse confirmer(@RequestBody Reservation reservation) {
     	
     	String result = Constants.SUCCESS;
     	
@@ -87,12 +95,12 @@ public class ReservationController {
     		result = e.getMessage();
     	}
     	
-    	return result;
+    	return new BasicResponse(result);
     	
 	}
   
     @RequestMapping(value="/terminer", method = RequestMethod.POST)
-    public String terminer(@RequestBody Reservation reservation) {
+    public BasicResponse terminer(@RequestBody Reservation reservation) {
     	
     	String result = Constants.SUCCESS;
     	
@@ -103,7 +111,7 @@ public class ReservationController {
     		result = e.getMessage();
     	}
     	
-    	return result;
+    	return new BasicResponse(result);
     	
 	}
     
@@ -121,4 +129,12 @@ public class ReservationController {
     	
     	return result;
     }
+    
+    
+    @RequestMapping(value = "/printReservations", method = RequestMethod.POST)
+	public BasicResponse printReport(@RequestBody User user) throws SQLException {
+		String reportName = this.reportService.createReport(user.getId(), user.getRole(), "reservations");
+		return new BasicResponse(reportName);
+
+	}
 }

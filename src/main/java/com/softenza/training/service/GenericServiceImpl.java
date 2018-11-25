@@ -48,6 +48,7 @@ public class GenericServiceImpl implements GenericService {
 				
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			savedEntity.setError(e.getMessage());
 		}
 		
