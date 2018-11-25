@@ -53,6 +53,12 @@
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 
+		<dependency>
+	        <groupId>net.sf.jasperreports</groupId>
+	        <artifactId>jasperreports</artifactId>
+	        <version>6.4.0</version>
+	    </dependency>   
+    
 		<!-- Start Pour les graphiques de jasper reports -->
 		<!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-bridge -->
 		<!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-bridge -->
