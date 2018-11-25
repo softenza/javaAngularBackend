@@ -44,7 +44,7 @@ public class UserController {
 	}
     
     @RequestMapping(value="/getAllClients", method = RequestMethod.GET)
-    public List<BaseEntity> login(@RequestBody List<User> user) {
+    public List<BaseEntity> getAllClients() {
   
         return this.genericService.getAll(User.class);
     }
