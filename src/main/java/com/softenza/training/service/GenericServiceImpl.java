@@ -1,9 +1,5 @@
 package com.softenza.training.service;
 
-import java.io.File;
-import java.lang.reflect.Field;
-import java.sql.Connection;
-import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,7 +12,6 @@ import org.hibernate.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.softenza.training.dao.GenericDao;
 import com.softenza.training.model.BaseEntity;

@@ -1,4 +1,4 @@
-package com.softenza.training.javaAngularBackend;
+package com.softenza.training;
 
 
 import org.springframework.boot.SpringApplication;
