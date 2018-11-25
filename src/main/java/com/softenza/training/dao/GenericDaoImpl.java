@@ -2,13 +2,19 @@ package com.softenza.training.dao;
 
 import java.util.List;
 
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import org.jboss.logging.Logger;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import com.softenza.training.model.BaseEntity;
 
 
 @SuppressWarnings("unchecked")
@@ -41,6 +47,17 @@ public class GenericDaoImpl<E, K> implements GenericDao<E, K> {
 		return (E) entityManager.find(cl, key);
 	}
 
+	public List<BaseEntity> findByColumn(Class cl, String column, String value) {
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+
+		CriteriaQuery<Object> cq = cb.createQuery();
+		Root from = cq.from(cl);
+
+		cq.where(cb.equal(from.get(column), value));
+		Query query = entityManager.createQuery(cq);
+		return query.getResultList();
+	}
+	
 	public List<E> getAll(Class cl) {
 		CriteriaQuery<E> criteria = entityManager.getCriteriaBuilder().createQuery(cl);
 	    criteria.select(criteria.from(cl));

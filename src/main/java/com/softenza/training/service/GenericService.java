@@ -15,6 +15,7 @@ public interface GenericService {
 	public void delete(BaseEntity entity);
 	public void delete(Class cl, Long id);
 	public BaseEntity find(Class cl, Long key);
+	public Double findByColumn(Class cl, String column, String value);
 	public List<BaseEntity> getAll(Class cl);
 	public Session getConnection();
 }
