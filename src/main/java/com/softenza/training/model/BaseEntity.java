@@ -3,6 +3,7 @@ package com.softenza.training.model;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 @MappedSuperclass
 public abstract class BaseEntity {
@@ -16,6 +17,9 @@ public abstract class BaseEntity {
 
 	@Column(name = "MOD_BY")
 	private Long modifiedBy;
+	
+	@Transient
+	private String error;
 
 	public abstract Long getId() ;
 
@@ -49,4 +53,10 @@ public abstract class BaseEntity {
 				+ ", modifiedBy=" + modifiedBy + "]";
 	}
 
+	public String getError() {
+		return error;
+	}
+	public void setError(String error) {
+		this.error = error;
+	}
 }

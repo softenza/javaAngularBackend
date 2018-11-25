@@ -1,5 +1,7 @@
 package com.softenza.training.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.softenza.training.model.BaseEntity;
 import com.softenza.training.model.User;
 import com.softenza.training.service.GenericService;
+import com.softenza.training.service.UserService;
 
 
 @RestController
@@ -22,19 +25,28 @@ public class UserController {
 	@Qualifier("genericService")
 	GenericService genericService;
 	
-    @RequestMapping(value="/login", method = RequestMethod.GET)
-    public BaseEntity login() {
-        return this.genericService.save(null);
+	@Autowired 
+	@Qualifier("userService")
+	UserService userService;
+	
+    @RequestMapping(value="/login", method = RequestMethod.POST)
+    public BaseEntity login(@RequestBody User user) {
+  
+        return this.userService.getUser(user.getEmail(), user.getPassword());
     }
      
     
     @RequestMapping(value="/register", method = RequestMethod.POST)
     public BaseEntity register(@RequestBody User user) {
-	
-		BaseEntity savedUser = this.genericService.save(user);
-		
+    	BaseEntity savedUser = this.userService.save(user);
+    	
 		return savedUser;
 	}
     
+    @RequestMapping(value="/getAllClients", method = RequestMethod.GET)
+    public List<BaseEntity> login(@RequestBody List<User> user) {
+  
+        return this.genericService.getAll(User.class);
+    }
   
 }
