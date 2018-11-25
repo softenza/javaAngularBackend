@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import com.softenza.training.dao.GenericDao;
 import com.softenza.training.model.BaseEntity;
+import com.softenza.training.model.Configuration;
+import com.softenza.training.util.Constants;
 
 
 @Service(value="genericService")
@@ -32,16 +34,24 @@ public class GenericServiceImpl implements GenericService {
 	
 	@Transactional
 	public BaseEntity save(BaseEntity entity) {	
-
-		entity.setModDate(new Date());                    
-		entity.setModifiedBy(1L);    
-		if (entity.getId() == null) {
-			entity.setCreateDate(new Date());                  
-			return this.genericDao.persist(entity);
-		} else {	
-			return this.genericDao.merge(entity);
+		BaseEntity savedEntity = entity;
+		try {
+			entity.setModDate(new Date());                    
+			entity.setModifiedBy(1L);    
+			if (entity.getId() == null) {
+				entity.setCreateDate(new Date());                  
+				savedEntity = this.genericDao.persist(entity);
+			} else {	
+				savedEntity = this.genericDao.merge(entity);
+			}
+			savedEntity.setError(Constants.SUCCESS);
+				
 		}
-				             
+		catch(Exception e) {
+			savedEntity.setError(e.getMessage());
+		}
+		
+		return savedEntity;
 	}
 	
 	@Transactional
@@ -57,6 +67,16 @@ public class GenericServiceImpl implements GenericService {
 
 	public BaseEntity find(Class cl, Long key) {
 		return (BaseEntity) this.genericDao.find(cl, key);
+	}
+	
+	public Double findByColumn(Class cl, String column, String value) {
+		List<BaseEntity> list = this.genericDao.findByColumn(cl, column, value);
+		
+		if (list.size() > 0) {
+			Configuration config = (Configuration) list.get(0);
+			return new Double(config.getValue());
+		}
+		return null;
 	}
 
 	public List<BaseEntity> getAll(Class cl) {
