@@ -23,10 +23,9 @@ public class UserController {
 	GenericService genericService;
 	
     @RequestMapping(value="/login", method = RequestMethod.GET)
-    public BaseEntity login() {
-        return this.genericService.save(null);
+    public String login(@RequestBody User user) {
+        return "True";
     }
-     
     
     @RequestMapping(value="/register", method = RequestMethod.POST)
     public BaseEntity register(@RequestBody User user) {
