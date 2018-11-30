@@ -53,11 +53,12 @@ public class UserServiceImpl  implements UserService {
 				error = "Nom d'utilisateur ou mot de passe invalid";
 			} 
 		}
-		catch(Exception e) {
-			user = new User();
+		catch(Exception e) { 
 			error = e.getMessage();
 		}
-		
+		if(user==null) {
+			user = new User();
+		}
 		user.setError(error);
 		return user;
 	}

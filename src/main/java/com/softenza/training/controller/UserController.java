@@ -15,38 +15,42 @@ import com.softenza.training.model.User;
 import com.softenza.training.service.GenericService;
 import com.softenza.training.service.UserService;
 
-
 @RestController
-@RequestMapping(value="/service/user")
+@RequestMapping(value = "/service/user")
 @CrossOrigin
 public class UserController {
- 
-	@Autowired 
+
+	@Autowired
 	@Qualifier("genericService")
 	GenericService genericService;
-	
-	@Autowired 
+
+	@Autowired
 	@Qualifier("userService")
 	UserService userService;
-	
-    @RequestMapping(value="/login", method = RequestMethod.POST)
-    public BaseEntity login(@RequestBody User user) {
-  
-        return this.userService.getUser(user.getEmail(), user.getPassword());
-    }
-     
-    
-    @RequestMapping(value="/register", method = RequestMethod.POST)
-    public BaseEntity register(@RequestBody User user) {
-    	BaseEntity savedUser = this.userService.save(user);
-    	
+
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public BaseEntity login(@RequestBody User user) {
+		return this.userService.getUser(user.getEmail(), user.getPassword());
+	}
+
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	public BaseEntity register(@RequestBody User user) {
+		BaseEntity savedUser = null;
+		try {
+			savedUser = this.userService.save(user);
+		} catch (Exception e) {
+			if(savedUser==null) {
+				savedUser= new User();
+			}
+			savedUser.setError(e.getMessage());
+		}
 		return savedUser;
 	}
-    
-    @RequestMapping(value="/getAllClients", method = RequestMethod.GET)
-    public List<BaseEntity> getAllClients() {
-  
-        return this.genericService.getAll(User.class);
-    }
-  
+
+	@RequestMapping(value = "/getAllClients", method = RequestMethod.GET)
+	public List<BaseEntity> getAllClients() {
+
+		return this.genericService.getAll(User.class);
+	}
+
 }
